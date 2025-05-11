@@ -1,11 +1,25 @@
 import { useState } from 'react';
+import { value } from './utils/value';
 
 type Lang = 'en' | 'ko' | 'jp' | 'cn';
 
 export function App() {
   const [lang, setLang] = useState<Lang>('en');
 
-  const message = lang === 'en' ? 'Hello World' : lang === 'ko' ? '안녕하세요!' : lang === 'jp' ? 'こんにちは!' : '你好!';
+  const message = value(() => {
+    switch (lang) {
+      case 'en':
+        return 'Hello World';
+      case 'ko':
+        return '안녕하세요!';
+      case 'jp':
+        return 'こんにちは!';
+      case 'cn':
+        return '你好!';
+      default:
+        throw new Error(`Unsupported language: ${lang}`);
+    }
+  });
 
   const options: { value: Lang; label: string }[] = [
     { value: 'en', label: 'English' },
